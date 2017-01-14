@@ -25,7 +25,7 @@ Install the middleware into your application's list of rack middlewares.
 Issue a request to your application where GC will occur. Two extra headers will
 be appended to the response:
 
-```
+```console
 $ curl -v -o /dev/null -sSq yourapp.example.com
 < HTTP/1.1 200 OK
    :

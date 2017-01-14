@@ -17,21 +17,21 @@ class RackGcProfilerTest < Minitest::Test
   end
 
   def test_middleware_logs_no_gc_activity
-    status, headers, body = @middleware.call({})
+    _, headers, _ = @middleware.call({})
 
     assert_equal ["GC-Runs", "0"], headers.assoc("GC-Runs")
     assert_equal ["GC-Time", "0.000000"], headers.assoc("GC-Time")
   end
 
   def test_middleware_logs_gc_activity
-    status, headers, body = @middleware.call({do_gc: 1})
+    _, headers, _ = @middleware.call({do_gc: 1})
 
     assert_equal ["GC-Runs", "1"], headers.assoc("GC-Runs")
     assert_equal ["GC-Time", "1.100000"], headers.assoc("GC-Time")
   end
 
   def test_middleware_logs_multiple_gc_activities
-    status, headers, body = @middleware.call({do_gc: 2})
+    _, headers, _ = @middleware.call({do_gc: 2})
 
     assert_equal ["GC-Runs", "2"], headers.assoc("GC-Runs")
     assert_equal ["GC-Time", "2.200000"], headers.assoc("GC-Time")

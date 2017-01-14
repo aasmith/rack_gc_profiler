@@ -1,8 +1,6 @@
 # RackGcProfiler
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/rack_gc_profiler`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+A rack middleware for measuring GC activity during a request.
 
 ## Installation
 
@@ -22,7 +20,59 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Install the middleware into your application's list of rack middlewares.
+
+Issue a request to your application where GC will occur. Two extra headers will
+be appended to the response:
+
+```
+$ curl -v -o /dev/null -sSq yourapp.example.com
+< HTTP/1.1 200 OK
+   :
+< GC-Runs: 1
+< GC-Time: 0.040000
+  :
+{ [1219 bytes data]
+* Connection #0 to host yourapp.example.com left intact
+```
+
+`GC-Runs` is the number of times garbage collection ran during the request.
+`GC-Time` is the duration of all the GC runs that occured, in seconds.
+
+### Production Usage
+
+Should you use this in production? Profiling anything always adds overhead. To
+measure this more concretely, a benchmark has been provided. See benchmark.rb in
+the root of the repo. On my machine, using MRI 2.3.1, GC profiling added 0.6%
+overhead. This equates to about 0.1ms on a 200ms request. Always evaluate in
+your own production environment first and decide for yourself before adding this
+to a production application.
+
+To prevent information leakage, the reverse proxy upstream from your
+application server should log and delete the two headers listed in the section
+above.
+
+### Rails
+
+To install in rails, add the following to your `application.rb`:
+
+```ruby
+config.middleware.use RackGcProfiler
+```
+
+See http://guides.rubyonrails.org/rails_on_rack.html#configuring-middleware-stack
+for more details.
+
+### Sinatra
+
+To install in sinatra, add the following to your application:
+
+```ruby
+use RackGcProfiler
+```
+
+See http://www.sinatrarb.com/intro#Rack%20Middleware for more details.
+
 
 ## Development
 
@@ -32,10 +82,9 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/rack_gc_profiler.
+Bug reports and pull requests are welcome on GitHub at https://github.com/aasmith/rack_gc_profiler.
 
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-

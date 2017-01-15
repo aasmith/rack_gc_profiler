@@ -2,6 +2,8 @@
 
 A rack middleware for measuring GC activity during a request.
 
+[![Build Status](https://travis-ci.org/aasmith/rack_gc_profiler.svg?branch=master)](https://travis-ci.org/aasmith/rack_gc_profiler)
+
 ## Installation
 
 Add this line to your application's Gemfile:

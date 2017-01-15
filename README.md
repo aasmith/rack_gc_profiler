@@ -60,7 +60,7 @@ To install in rails, add the following to your `application.rb`:
 config.middleware.use RackGcProfiler::Middleware
 ```
 
-See http://guides.rubyonrails.org/rails_on_rack.html#configuring-middleware-stack
+See the [Rails rack guide](http://guides.rubyonrails.org/rails_on_rack.html#configuring-middleware-stack)
 for more details.
 
 ### Sinatra
@@ -71,7 +71,7 @@ To install in sinatra, add the following to your application:
 use RackGcProfiler::Middleware
 ```
 
-See http://www.sinatrarb.com/intro#Rack%20Middleware for more details.
+See the [Sinatra docs](http://www.sinatrarb.com/intro#Rack%20Middleware) for more details.
 
 
 ## Development

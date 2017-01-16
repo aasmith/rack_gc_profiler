@@ -40,11 +40,7 @@ class RackGcProfilerTest < Minitest::Test
   def test_middleware_starts_and_stops_profiler
     @middleware.call({})
 
-    assert @app.profiler_started
-
-    refute FakeProfiler.enabled?
-    assert_empty FakeProfiler.raw_data
-    assert_equal 0, FakeProfiler.total_time
+    assert_profiler_was_started_and_stopped
   end
 
   def test_middleware_starts_and_stops_profiler_after_app_error
@@ -52,11 +48,13 @@ class RackGcProfilerTest < Minitest::Test
       @middleware.call({raise: true})
     end
 
-    assert @app.profiler_started
-
-    refute FakeProfiler.enabled?
-    assert_empty FakeProfiler.raw_data
-    assert_equal 0, FakeProfiler.total_time
+    assert_profiler_was_started_and_stopped
   end
 
+  def assert_profiler_was_started_and_stopped
+    assert @app.profiler_started, "Profiler should be started before app call"
+    refute FakeProfiler.enabled?, "Profiler should be stopped after app call"
+    assert_empty FakeProfiler.raw_data, "Profiler should be empty"
+    assert_equal 0, FakeProfiler.total_time, "Profiler should be empty"
+  end
 end

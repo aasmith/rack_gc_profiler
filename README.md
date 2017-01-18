@@ -46,7 +46,7 @@ $ curl -v -o /dev/null -sSq yourapp.example.com
 Should you use this in production? Profiling anything always adds overhead. To
 measure this more concretely, a benchmark has been provided. See benchmark.rb in
 the root of the repo. On my machine, using MRI 2.3.1, GC profiling added 0.6%
-overhead. This equates to about 0.1ms on a 200ms request. Always evaluate in
+overhead. This equates to about 1.2ms on a 200ms request. Always evaluate in
 your own production environment first and decide for yourself before adding this
 to a production application.
 
